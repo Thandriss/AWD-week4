@@ -22,9 +22,11 @@ if (document.readyState !== "loading") {
       const cont = document.getElementById("rec");
       var title = document.createElement("H1");
       title.innerText = result.name;
+      title.id = "ti";
       cont.appendChild(title);
       var ingTitle = document.createElement("H2");
-      ingTitle.innerText = "Ingredients"
+      ingTitle.innerText = "Ingredients";
+      ingTitle.id = "ingr-ti";
       cont.appendChild(ingTitle);
       for(el in result.ingredients) {
         var ulist = document.createElement("UL");
@@ -33,6 +35,7 @@ if (document.readyState !== "loading") {
       }
       var instTitle = document.createElement("H2");
       instTitle.innerText = "Instructions"
+      instTitle.id = "inst-ti";
       cont.appendChild(instTitle);
       for(el in result.instructions) {
         var ulistIns = document.createElement("UL");
@@ -57,6 +60,8 @@ if (document.readyState !== "loading") {
   })
 
   const nameDish = document.getElementById("name-text");
+  const imgIn = document.getElementById("image-input");
+  let save = [];
 
   sub.addEventListener("click", function() {
     let reqToSend = {
@@ -76,4 +81,21 @@ if (document.readyState !== "loading") {
           instr = [];
           ingr = [];
         })
+    const formData = new FormData();
+    formData.append("images",save[0]);
+    save = [];
+    console.log("Here");
+    fetch("http://localhost:3000/images", {
+            method: "post",
+            body: formData
+        })
+        .then((res) => {
+          console.log(res)
+        })
+  })
+
+  imgIn.addEventListener("change", event => {
+    save = [];
+    const files = event.target.files;
+    save.push(files[0])
   })

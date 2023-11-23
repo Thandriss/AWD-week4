@@ -7,6 +7,7 @@ const port = 3000;
 const bodyParser = require('body-parser');
 const send = require("send");
 let listValue = [];
+const images = [];
 app.use(bodyParser.json()) ;
 app.use(bodyParser.urlencoded({ extended: true })) ;
 
@@ -26,15 +27,19 @@ app.get("/recipe/:food", (req, res) => {
         ingredients: ["cheese", "flour"]
     };
     console.log(el);
-    res.json(el);
+    res.send(el);
 })
 
 app.post("/recipe/", (req, res) => {
-    console.log("looooooooooooool");
-    console.log(req.body);
     listValue.push(req.body);
     // console.log(listValue);
-    res.json(req.body);
+    res.send(req.body);
+})
+
+app.post("/images", (req, res) => {
+    images.push(req.body)
+    console.log(req.body);
+    res.send("Hi");
 })
 
 
